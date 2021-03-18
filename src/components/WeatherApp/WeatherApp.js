@@ -1,34 +1,32 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import CityWeather from './CityWeather';
 
-class WeatherApp extends Component {
-    state = {
-        city: "London",
-        cityNameForWeather: "London",
+const WeatherApp = (props) =>{
+    const[cityNameForWeather, setCityNameForWeather] = useState('');
+    const[changeCity, setChangeCity] = useState('');
+  
+
+    const submitHandler =(event)=>{
+        event.preventDefault();
+        if(!changeCity){
+            alert("These fields can't be empty");
+        }else{
+            setCityNameForWeather({ name: changeCity});
+        }
     }
 
-    changeCity = (e)=>{
-        this.setState({city:e.target.value})
-    }
+return(
+    <div className="container">
+    <CityWeather cityName={cityNameForWeather} />
+    <div className="row justify-content-center">
+        <form onSubmit={submitHandler}>
+            <input type="text"  value={changeCity} onChange={(event) => setChangeCity(event.target.value)} />
+            <input type="submit" className="btn btn-primary" value="Search!" />
+        </form>
+    </div>
+</div>
+);
+};
 
-    citysearch = (e)=>{
-        e.preventDefault();
-        this.setState({cityNameForWeather: this.state.city})
-    }
-
-    render(){
-        return(
-            <div className="container">
-                <CityWeather cityName={this.state.cityNameForWeather} />
-                <div className="row justify-content-center">
-                    <form onSubmit={this.citysearch}>
-                        <input type="text" value={this.state.city} onChange={this.changeCity} />
-                        <input type="submit" className="btn btn-primary" value="Search!" />
-                    </form>
-                </div>
-            </div>
-        )
-    }
-}
 
 export default WeatherApp;
